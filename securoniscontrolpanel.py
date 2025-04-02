@@ -16,6 +16,7 @@ from typing import Dict, List, Optional
 import queue
 import signal
 import sys
+from PIL import Image, ImageTk
 
 class LinuxSystemPanel:
     def __init__(self, root):
@@ -49,12 +50,22 @@ class LinuxSystemPanel:
         self.sidebar = tk.Frame(root, bg="#121212", padx=15, pady=15)
         self.sidebar.grid(row=0, column=0, sticky="nswe")
         
-        # Menu
-        tk.Label(self.sidebar, 
-                text="SECURONIS SYSTEM PANEL", 
-                bg="#121212", 
-                fg="#00ff00",
-                font=self.title_font).pack(pady=(0, 30), anchor="w")
+        # Logo
+        try:
+            logo_image = Image.open("logo.png")
+            logo_image = logo_image.resize((200, 150), Image.Resampling.LANCZOS)
+            self.logo_photo = ImageTk.PhotoImage(logo_image)
+            logo_label = tk.Label(self.sidebar, 
+                                image=self.logo_photo,
+                                bg="#121212")
+            logo_label.pack(pady=(0, 30))
+        except Exception as e:
+            print(f"Logo error!: {e}")
+            tk.Label(self.sidebar, 
+                    text="SECURONIS SYSTEM PANEL", 
+                    bg="#121212", 
+                    fg="#00ff00",
+                    font=self.title_font).pack(pady=(0, 30), anchor="w")
         
         # Menu buttons
         self.menu_items = [
@@ -70,6 +81,7 @@ class LinuxSystemPanel:
             ("System Monitor", 9),
             ("About", 10)
         ]
+
         
         for text, index in self.menu_items:
             self.create_menu_button(text, index)
