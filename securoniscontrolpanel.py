@@ -52,7 +52,7 @@ class LinuxSystemPanel:
         
         # Logo
         try:
-            logo_image = Image.open("logo.png")
+            logo_image = Image.open("logo2.png")
             logo_image = logo_image.resize((200, 150), Image.Resampling.LANCZOS)
             self.logo_photo = ImageTk.PhotoImage(logo_image)
             logo_label = tk.Label(self.sidebar, 
